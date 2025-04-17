@@ -209,7 +209,7 @@ def run():
     # Create table user_data and user_feedback
      DB_table_name = 'user_data'
      table_sql = "CREATE TABLE IF NOT EXISTS " + DB_table_name + """
-                    (ID INT NOT NULL AUTOINCREMENT,
+                    ID INTEGER PRIMARY KEY AUTOINCREMENT,
                     sec_token varchar(20) NOT NULL,
                     ip_add varchar(50) NULL,
                     host_name varchar(50) NULL,
@@ -233,7 +233,6 @@ def run():
                     Recommended_skills TEXT NOT NULL,
                     Recommended_courses TEXT NOT NULL,
                     pdf_name varchar(50) NOT NULL,
-                    PRIMARY KEY (ID)
                     );
                 """
      cursor.execute(table_sql)
@@ -241,13 +240,12 @@ def run():
 
      DBf_table_name = 'user_feedback'
      tablef_sql = "CREATE TABLE IF NOT EXISTS " + DBf_table_name + """
-                    (ID INT NOT NULL AUTOINCREMENT,
+                    ID INTEGER PRIMARY KEY AUTOINCREMENT,
                         feed_name varchar(50) NOT NULL,
                         feed_email TEXT NOT NULL,
                         feed_score TEXT NOT NULL,
                         comments TEXT NULL,
                         Timestamp TEXT NOT NULL,
-                        PRIMARY KEY (ID)
                     );
                 """
      cursor.execute(tablef_sql)
