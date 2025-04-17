@@ -4,12 +4,15 @@ nltk.download('stopwords')
 nltk.download('punkt')
 
 
+# Developed by dnoobnerd [https://dnoobnerd.netlify.app]    Made with Streamlit
+
+
 ###### Packages Used ######
 import streamlit as st # type: ignore # core package used in this project
 import pandas as pd # type: ignore
 import base64, random
 import time,datetime
-# import pymysql
+# import sqlite3
 import os
 import socket
 import platform
@@ -93,9 +96,10 @@ def course_recommender(course_list):
 
 ###### Database Stuffs ######
 
-import pymysql
+import sqlite3
 # sql connector
-connection = pymysql.connect(host='localhost',user='root',password='Mommyissues_123',db='cv')
+connection = sqlite3.connect('cv.db')
+cursor = connection.cursor()
 cursor = connection.cursor()
 
 
@@ -207,7 +211,7 @@ def run():
     # Create table user_data and user_feedback
      DB_table_name = 'user_data'
      table_sql = "CREATE TABLE IF NOT EXISTS " + DB_table_name + """
-                    (ID INT NOT NULL AUTO_INCREMENT,
+                    (ID INT NOT NULL AUTOINCREMENT,
                     sec_token varchar(20) NOT NULL,
                     ip_add varchar(50) NULL,
                     host_name varchar(50) NULL,
@@ -239,7 +243,7 @@ def run():
 
      DBf_table_name = 'user_feedback'
      tablef_sql = "CREATE TABLE IF NOT EXISTS " + DBf_table_name + """
-                    (ID INT NOT NULL AUTO_INCREMENT,
+                    (ID INT NOT NULL AUTOINCREMENT,
                         feed_name varchar(50) NOT NULL,
                         feed_email VARCHAR(50) NOT NULL,
                         feed_score VARCHAR(5) NOT NULL,
