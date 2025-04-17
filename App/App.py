@@ -1,4 +1,4 @@
-# Developed by dnoobnerd [https://dnoobnerd.netlify.app]    Made with Streamlit
+
 
 
 ###### Packages Used ######
@@ -6,94 +6,7 @@ import streamlit as st # type: ignore # core package used in this project
 import pandas as pd # type: ignore
 import base64, random
 import time,datetime
-# import pymysql
-import os
-import socket
-import platform
-import geocoder # type
-import secrets
-import io,random
-import plotly.express as px # type: ignore # to create visualisations at the admin session
-import plotly.graph_objects as go # type: ignore
-from geopy.geocoders import Nominatim # type: ignore
-# libraries used to parse the pdf files
-from pyresparser import ResumeParser # type: ignore
-from pdfminer3.layout import LAParams, LTTextBox # type: ignore
-from pdfminer3.pdfpage import PDFPage # type: ignore
-from pdfminer3.pdfinterp import PDFResourceManager # type: ignore
-from pdfminer3.pdfinterp import PDFPageInterpreter # type: ignore
-from pdfminer3.converter import TextConverter # type: ignore
-from streamlit_tags import st_tags # type: ignore
-from PIL import Image
-# pre stored data for prediction purposes
-from Courses import ds_course,web_course,android_course,ios_course,uiux_course,resume_videos,interview_videos
-import nltk # type: ignore
-nltk.download('stopwords')
-
-
-###### Preprocessing functions ######
-
-
-# Generates a link allowing the data in a given panda dataframe to be downloaded in csv format 
-def get_csv_download_link(df,filename,text):
-    csv = df.to_csv(index=False)
-    ## bytes conversions
-    b64 = base64.b64encode(csv.encode()).decode()      
-    href = f'<a href="data:file/csv;base64,{b64}" download="{filename}">{text}</a>'
-    return href
-
-
-# Reads Pdf file and check_extractable
-def pdf_reader(file):
-    resource_manager = PDFResourceManager()
-    fake_file_handle = io.StringIO()
-    converter = TextConverter(resource_manager, fake_file_handle, laparams=LAParams())
-    page_interpreter = PDFPageInterpreter(resource_manager, converter)
-    with open(file, 'rb') as fh:
-        for page in PDFPage.get_pages(fh,
-                                      caching=True,
-                                      check_extractable=True):
-            page_interpreter.process_page(page)
-            print(page)
-        text = fake_file_handle.getvalue()
-
-    ## close open handles
-    converter.close()
-    fake_file_handle.close()
-    return text
-
-
-# show uploaded file path to view pdf_display
-def show_pdf(file_path):
-    with open(file_path, "rb") as f:
-        base64_pdf = base64.b64encode(f.read()).decode('utf-8')
-    pdf_display = F'<iframe src="data:application/pdf;base64,{base64_pdf}" width="700" height="1000" type="application/pdf"></iframe>'
-    st.markdown(pdf_display, unsafe_allow_html=True)
-
-
-# course recommendations which has data already loaded from Courses.py
-def course_recommender(course_list):
-    st.subheader("**Courses & Certificates Recommendations 👨‍🎓**")
-    c = 0
-    rec_course = []
-    ## slider to choose from range 1-10
-    no_of_reco = st.slider('Choose Number of Course Recommendations:', 1, 10, 5)
-    random.shuffle(course_list)
-    for c_name, c_link in course_list:
-        c += 1
-        st.markdown(f"({c}) [{c_name}]({c_link})")
-        rec_course.append(c_name)
-        if c == no_of_reco:
-            break
-    return rec_course
-
-
-###### Database Stuffs ######
-
-import pymysql
-# sql connector
-connection = pymysql.connect(host='localhost',user='root',password='Mommyissues_123',db='cv')
-cursor = connection.cursor()
+# 
 
 
 # inserting miscellaneous data, fetched results, prediction and recommendation into user_data table
@@ -204,7 +117,7 @@ def run():
     # Create table user_data and user_feedback
      DB_table_name = 'user_data'
      table_sql = "CREATE TABLE IF NOT EXISTS " + DB_table_name + """
-                    (ID INT NOT NULL AUTO_INCREMENT,
+                    (ID INTEGER NOT NULL AUTOINCREMENT,
                     sec_token varchar(20) NOT NULL,
                     ip_add varchar(50) NULL,
                     host_name varchar(50) NULL,
@@ -218,15 +131,15 @@ def run():
                     act_mail varchar(50) NOT NULL,
                     act_mob varchar(20) NOT NULL,
                     Name varchar(500) NOT NULL,
-                    Email_ID VARCHAR(500) NOT NULL,
-                    resume_score VARCHAR(8) NOT NULL,
-                    Timestamp VARCHAR(50) NOT NULL,
-                    Page_no VARCHAR(5) NOT NULL,
-                    Predicted_Field BLOB NOT NULL,
-                    User_level BLOB NOT NULL,
-                    Actual_skills BLOB NOT NULL,
-                    Recommended_skills BLOB NOT NULL,
-                    Recommended_courses BLOB NOT NULL,
+                    Email_ID TEXT NOT NULL,
+                    resume_score TEXT NOT NULL,
+                    Timestamp TEXT NOT NULL,
+                    Page_no TEXT NOT NULL,
+                    Predicted_Field TEXT NOT NULL,
+                    User_level TEXT NOT NULL,
+                    Actual_skills TEXT NOT NULL,
+                    Recommended_skills TEXT NOT NULL,
+                    Recommended_courses TEXT NOT NULL,
                     pdf_name varchar(50) NOT NULL,
                     PRIMARY KEY (ID)
                     );
@@ -236,12 +149,12 @@ def run():
 
      DBf_table_name = 'user_feedback'
      tablef_sql = "CREATE TABLE IF NOT EXISTS " + DBf_table_name + """
-                    (ID INT NOT NULL AUTO_INCREMENT,
+                    (ID INTEGER NOT NULL AUTOINCREMENT,
                         feed_name varchar(50) NOT NULL,
-                        feed_email VARCHAR(50) NOT NULL,
-                        feed_score VARCHAR(5) NOT NULL,
-                        comments VARCHAR(100) NULL,
-                        Timestamp VARCHAR(50) NOT NULL,
+                        feed_email TEXT NOT NULL,
+                        feed_score TEXT NOT NULL,
+                        comments TEXT NULL,
+                        Timestamp TEXT NOT NULL,
                         PRIMARY KEY (ID)
                     );
                 """
@@ -713,7 +626,7 @@ def run():
             if ad_user == 'admin' and ad_password == 'admin@resume-analyzer':
                 
                 ### Fetch miscellaneous data from user_data(table) and convert it into dataframe
-                cursor.execute('''SELECT ID, ip_add, resume_score, convert(Predicted_Field using utf8), convert(User_level using utf8), city, state, country from user_data''')
+                cursor.execute('''SELECT ID, ip_add, resume_score, Predicted_Field, User_level, city, state, country from user_data''')
                 datanalys = cursor.fetchall()
                 plot_data = pd.DataFrame(datanalys, columns=['Idt', 'IP_add', 'resume_score', 'Predicted_Field', 'User_Level', 'City', 'State', 'Country'])
                 
@@ -722,7 +635,7 @@ def run():
                 st.success("Welcome Shraddha ! Total %d " % values + " User's Have Used Our Tool : )")                
                 
                 ### Fetch user data from user_data(table) and convert it into dataframe
-                cursor.execute('''SELECT ID, sec_token, ip_add, act_name, act_mail, act_mob, convert(Predicted_Field using utf8), Timestamp, Name, Email_ID, resume_score, Page_no, pdf_name, convert(User_level using utf8), convert(Actual_skills using utf8), convert(Recommended_skills using utf8), convert(Recommended_courses using utf8), city, state, country, latlong, os_name_ver, host_name, dev_user from user_data''')
+                cursor.execute('''SELECT ID, sec_token, ip_add, act_name, act_mail, act_mob, Predicted_Field, Timestamp, Name, Email_ID, resume_score, Page_no, pdf_name, User_level, Actual_skills, Recommended_skills, Recommended_courses, city, state, country, latlong, os_name_ver, host_name, dev_user from user_data''')
                 data = cursor.fetchall()                
 
                 st.header("**User's Data**")
