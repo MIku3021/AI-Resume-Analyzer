@@ -52,7 +52,7 @@ pycparser==2.21
 pycryptodome==3.15.0
 pydantic==1.9.2
 pydeck==0.8.0b1
-Pygments==2.13.0
+Pygments==2.19.1
 Pympler==1.0.1
 PyMySQL==1.0.2
 pyparsing==3.0.9
@@ -64,7 +64,9 @@ pytz-deprecation-shim==0.1.0.post0
 ratelim==0.1.6
 regex==2022.8.17
 requests==2.28.1
-rich==12.5.1
+rich==14.0.0
+markdown-it-py==3.0.0
+mdurl==0.1.2
 semver==2.13.0
 six==1.16.0
 smart-open==5.2.1
