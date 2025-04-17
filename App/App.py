@@ -204,9 +204,7 @@ def run():
 
 
     # Create the DB
-     db_sql = """CREATE DATABASE IF NOT EXISTS CV;"""
-     cursor.execute(db_sql)
-
+     # Removed CREATE DATABASE (not valid in SQLite)
 
     # Create table user_data and user_feedback
      DB_table_name = 'user_data'
