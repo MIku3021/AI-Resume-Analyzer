@@ -1,3 +1,4 @@
+import os
 from PIL import Image
 
 
@@ -11,12 +12,7 @@ import base64, random
 import time,datetime
 ###### Packages Used ######
 import getpass
-import streamlit as st # type: ignore # core package used in this project
-import pandas as pd # type: ignore
-import base64, random
-import time,datetime
 # import sqlite3
-import os
 import socket
 import platform
 import geocoder # type
@@ -33,7 +29,6 @@ from pdfminer3.pdfinterp import PDFResourceManager # type: ignore
 from pdfminer3.pdfinterp import PDFPageInterpreter # type: ignore
 from pdfminer3.converter import TextConverter # type: ignore
 from streamlit_tags import st_tags # type: ignore
-from PIL import Image
 # pre stored data for prediction purposes
 from Courses import ds_course,web_course,android_course,ios_course,uiux_course,resume_videos,interview_videos
 import nltk # type: ignore
