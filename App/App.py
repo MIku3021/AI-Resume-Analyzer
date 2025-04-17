@@ -212,6 +212,32 @@ def run():
     # Create table user_data and user_feedback
      DB_table_name = 'user_data'
      table_sql = "CREATE TABLE IF NOT EXISTS " + DB_table_name + """
+                    (ID INTEGER PRIMARY KEY AUTOINCREMENT,
+                    sec_token TEXT NOT NULL,
+                    ip_add TEXT,
+                    host_name TEXT,
+                    dev_user TEXT,
+                    os_name_ver TEXT,
+                    latlong TEXT,
+                    city TEXT,
+                    state TEXT,
+                    country TEXT,
+                    act_name TEXT NOT NULL,
+                    act_mail TEXT NOT NULL,
+                    act_mob TEXT NOT NULL,
+                    Name TEXT NOT NULL,
+                    Email_ID TEXT NOT NULL,
+                    resume_score TEXT NOT NULL,
+                    Timestamp TEXT NOT NULL,
+                    Page_no TEXT NOT NULL,
+                    Predicted_Field TEXT NOT NULL,
+                    User_level TEXT NOT NULL,
+                    Actual_skills TEXT NOT NULL,
+                    Recommended_skills TEXT NOT NULL,
+                    Recommended_courses TEXT NOT NULL,
+                    pdf_name TEXT NOT NULL
+                    );
+                """
                     (ID INT NOT NULL AUTOINCREMENT,
                     sec_token varchar(20) NOT NULL,
                     ip_add varchar(50) NULL,
@@ -244,6 +270,14 @@ def run():
 
      DBf_table_name = 'user_feedback'
      tablef_sql = "CREATE TABLE IF NOT EXISTS " + DBf_table_name + """
+                    (ID INTEGER PRIMARY KEY AUTOINCREMENT,
+                    feed_name TEXT NOT NULL,
+                    feed_email TEXT NOT NULL,
+                    feed_score TEXT NOT NULL,
+                    comments TEXT,
+                    Timestamp TEXT NOT NULL
+                    );
+                """
                     (ID INT NOT NULL AUTOINCREMENT,
                         feed_name varchar(50) NOT NULL,
                         feed_email VARCHAR(50) NOT NULL,
