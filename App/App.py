@@ -6,8 +6,7 @@ import streamlit as st # type: ignore # core package used in this project
 import pandas as pd # type: ignore
 import base64, random
 import time,datetime
-from PIL import Image
-# import sqlite3
+# import pymysql
 import os
 import socket
 import platform
@@ -91,10 +90,9 @@ def course_recommender(course_list):
 
 ###### Database Stuffs ######
 
-import sqlite3
+import pymysql
 # sql connector
-connection = sqlite3.connect('cv.db')
-cursor = connection.cursor()
+connection = pymysql.connect(host='localhost',user='root',password='Mommyissues_123',db='cv')
 cursor = connection.cursor()
 
 
@@ -173,12 +171,7 @@ def run():
     """, unsafe_allow_html=True)    
     
     # (Logo, Heading, Sidebar etc)
-     img_path = img_path = os.path.join(os.path.dirname(__file__), 'Logo', 'RESUM.png')
-     if os.path.exists(img_path):
-        img = Image.open(img_path)
-        st.image(img)
-     else:
-        st.warning("Logo image './Logo/RESUM.png' not found. Skipping logo.")
+     img = Image.open('./Logo/RESUM.png')
      st.image(img)
      st.sidebar.markdown("# Choose Something...")
      activities = ["User", "Feedback", "About", "Admin"]
@@ -204,40 +197,52 @@ def run():
 
 
     # Create the DB
-     # Removed CREATE DATABASE (not valid in SQLite)
+     db_sql = """CREATE DATABASE IF NOT EXISTS CV;"""
+     cursor.execute(db_sql)
+
 
     # Create table user_data and user_feedback
      DB_table_name = 'user_data'
-    table_sql = '''
-        CREATE TABLE IF NOT EXISTS user_data (
-            ID INTEGER PRIMARY KEY AUTOINCREMENT,
-            Name TEXT,
-            Email TEXT,
-            Password TEXT,
-            IP_Address TEXT,
-            Resume_score TEXT,
-            Timestamp TEXT,
-            Page_no TEXT,
-            Predicted_Field TEXT,
-            User_level TEXT,
-            Actual_skills TEXT,
-            Recommended_skills TEXT,
-            Recommended_courses TEXT,
-            City TEXT
-        );
-    '''
+     table_sql = "CREATE TABLE IF NOT EXISTS " + DB_table_name + """
+                    (ID INT NOT NULL AUTO_INCREMENT,
+                    sec_token varchar(20) NOT NULL,
+                    ip_add varchar(50) NULL,
+                    host_name varchar(50) NULL,
+                    dev_user varchar(50) NULL,
+                    os_name_ver varchar(50) NULL,
+                    latlong varchar(50) NULL,
+                    city varchar(50) NULL,
+                    state varchar(50) NULL,
+                    country varchar(50) NULL,
+                    act_name varchar(50) NOT NULL,
+                    act_mail varchar(50) NOT NULL,
+                    act_mob varchar(20) NOT NULL,
+                    Name varchar(500) NOT NULL,
+                    Email_ID VARCHAR(500) NOT NULL,
+                    resume_score VARCHAR(8) NOT NULL,
+                    Timestamp VARCHAR(50) NOT NULL,
+                    Page_no VARCHAR(5) NOT NULL,
+                    Predicted_Field BLOB NOT NULL,
+                    User_level BLOB NOT NULL,
+                    Actual_skills BLOB NOT NULL,
+                    Recommended_skills BLOB NOT NULL,
+                    Recommended_courses BLOB NOT NULL,
+                    pdf_name varchar(50) NOT NULL,
+                    PRIMARY KEY (ID)
+                    );
                 """
      cursor.execute(table_sql)
 
 
      DBf_table_name = 'user_feedback'
      tablef_sql = "CREATE TABLE IF NOT EXISTS " + DBf_table_name + """
-                    ID INTEGER PRIMARY KEY AUTOINCREMENT,
+                    (ID INT NOT NULL AUTO_INCREMENT,
                         feed_name varchar(50) NOT NULL,
-                        feed_email TEXT NOT NULL,
-                        feed_score TEXT NOT NULL,
-                        comments TEXT NULL,
-                        Timestamp TEXT NOT NULL,
+                        feed_email VARCHAR(50) NOT NULL,
+                        feed_score VARCHAR(5) NOT NULL,
+                        comments VARCHAR(100) NULL,
+                        Timestamp VARCHAR(50) NOT NULL,
+                        PRIMARY KEY (ID)
                     );
                 """
      cursor.execute(tablef_sql)
