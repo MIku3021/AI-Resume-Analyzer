@@ -3,6 +3,10 @@ from PIL import Image
 
 
 ###### Packages Used ######
+import sqlite3
+os.makedirs("./Database", exist_ok=True)
+connection = sqlite3.connect("./Database/cv.db")
+cursor = connection.cursor()
 import streamlit as st # type: ignore # core package used in this project
 import pandas as pd # type: ignore
 import base64, random
