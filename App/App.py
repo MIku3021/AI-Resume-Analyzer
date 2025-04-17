@@ -178,7 +178,8 @@ def run():
     """, unsafe_allow_html=True)    
     
     # (Logo, Heading, Sidebar etc)
-     img = Image.open('./Logo/RESUM.png')
+     img_path = os.path.join(os.path.dirname(__file__), 'Logo', 'RESUM.png')
+     img = Image.open(img_path)
      st.image(img)
      st.sidebar.markdown("# Choose Something...")
      activities = ["User", "Feedback", "About", "Admin"]
