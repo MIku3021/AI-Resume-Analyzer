@@ -1,33 +1,12 @@
 # Developed by dnoobnerd [https://dnoobnerd.netlify.app]    Made with Streamlit
-import nltk
-nltk.download('stopwords')
-nltk.download('punkt')
-import spacy
-spacy.load("en_core_web_sm")
-
-
-import subprocess
-import importlib.util
-
-# Check if the model is installed, download if not
-model_name = "en_core_web_sm"
-if not importlib.util.find_spec(model_name):
-    subprocess.run(["python", "-m", "spacy", "download", model_name])
-
-nlp = spacy.load(model_name)
-
-
-
-# Developed by dnoobnerd [https://dnoobnerd.netlify.app]    Made with Streamlit
 
 
 ###### Packages Used ######
-import getpass
 import streamlit as st # type: ignore # core package used in this project
 import pandas as pd # type: ignore
 import base64, random
 import time,datetime
-# import sqlite3
+# import pymysql
 import os
 import socket
 import platform
@@ -111,10 +90,9 @@ def course_recommender(course_list):
 
 ###### Database Stuffs ######
 
-import sqlite3
+import pymysql
 # sql connector
-connection = sqlite3.connect('cv.db')
-cursor = connection.cursor()
+connection = pymysql.connect(host='localhost',user='root',password='Mommyissues_123',db='cv')
 cursor = connection.cursor()
 
 
@@ -193,8 +171,7 @@ def run():
     """, unsafe_allow_html=True)    
     
     # (Logo, Heading, Sidebar etc)
-     img_path = os.path.join(os.path.dirname(__file__), 'Logo', 'RESUM.png')
-     img = Image.open(img_path)
+     img = Image.open('./Logo/RESUM.png')
      st.image(img)
      st.sidebar.markdown("# Choose Something...")
      activities = ["User", "Feedback", "About", "Admin"]
@@ -220,54 +197,54 @@ def run():
 
 
     # Create the DB
-    # db_sql = """CREATE DATABASE IF NOT EXISTS CV;"""
-     #cursor.execute(db_sql)
+     db_sql = """CREATE DATABASE IF NOT EXISTS CV;"""
+     cursor.execute(db_sql)
 
 
     # Create table user_data and user_feedback
      DB_table_name = 'user_data'
-     table_sql = """
-CREATE TABLE IF NOT EXISTS user_data (
-    ID INTEGER PRIMARY KEY AUTOINCREMENT,
-    sec_token TEXT NOT NULL,
-    ip_add TEXT,
-    host_name TEXT,
-    dev_user TEXT,
-    os_name_ver TEXT,
-    latlong TEXT,
-    city TEXT,
-    state TEXT,
-    country TEXT,
-    act_name TEXT NOT NULL,
-    act_mail TEXT NOT NULL,
-    act_mob TEXT NOT NULL,
-    Name TEXT NOT NULL,
-    Email_ID TEXT NOT NULL,
-    resume_score TEXT NOT NULL,
-    Timestamp TEXT NOT NULL,
-    Page_no TEXT NOT NULL,
-    Predicted_Field TEXT NOT NULL,
-    User_level TEXT NOT NULL,
-    Actual_skills TEXT NOT NULL,
-    Recommended_skills TEXT NOT NULL,
-    Recommended_courses TEXT NOT NULL,
-    pdf_name TEXT NOT NULL
-);
-"""
+     table_sql = "CREATE TABLE IF NOT EXISTS " + DB_table_name + """
+                    (ID INT NOT NULL AUTO_INCREMENT,
+                    sec_token varchar(20) NOT NULL,
+                    ip_add varchar(50) NULL,
+                    host_name varchar(50) NULL,
+                    dev_user varchar(50) NULL,
+                    os_name_ver varchar(50) NULL,
+                    latlong varchar(50) NULL,
+                    city varchar(50) NULL,
+                    state varchar(50) NULL,
+                    country varchar(50) NULL,
+                    act_name varchar(50) NOT NULL,
+                    act_mail varchar(50) NOT NULL,
+                    act_mob varchar(20) NOT NULL,
+                    Name varchar(500) NOT NULL,
+                    Email_ID VARCHAR(500) NOT NULL,
+                    resume_score VARCHAR(8) NOT NULL,
+                    Timestamp VARCHAR(50) NOT NULL,
+                    Page_no VARCHAR(5) NOT NULL,
+                    Predicted_Field BLOB NOT NULL,
+                    User_level BLOB NOT NULL,
+                    Actual_skills BLOB NOT NULL,
+                    Recommended_skills BLOB NOT NULL,
+                    Recommended_courses BLOB NOT NULL,
+                    pdf_name varchar(50) NOT NULL,
+                    PRIMARY KEY (ID)
+                    );
+                """
      cursor.execute(table_sql)
 
 
      DBf_table_name = 'user_feedback'
-     tablef_sql = """
-CREATE TABLE IF NOT EXISTS user_feedback (
-    ID INTEGER PRIMARY KEY AUTOINCREMENT,
-    feed_name TEXT NOT NULL,
-    feed_email TEXT NOT NULL,
-    feed_score TEXT NOT NULL,
-    comments TEXT,
-    Timestamp TEXT NOT NULL
-);
-"""
+     tablef_sql = "CREATE TABLE IF NOT EXISTS " + DBf_table_name + """
+                    (ID INT NOT NULL AUTO_INCREMENT,
+                        feed_name varchar(50) NOT NULL,
+                        feed_email VARCHAR(50) NOT NULL,
+                        feed_score VARCHAR(5) NOT NULL,
+                        comments VARCHAR(100) NULL,
+                        Timestamp VARCHAR(50) NOT NULL,
+                        PRIMARY KEY (ID)
+                    );
+                """
      cursor.execute(tablef_sql)
 
 
@@ -282,7 +259,7 @@ CREATE TABLE IF NOT EXISTS user_feedback (
         sec_token = secrets.token_urlsafe(12)
         host_name = socket.gethostname()
         ip_add = socket.gethostbyname(host_name)
-        dev_user = getpass.getuser()
+        dev_user = os.getlogin()
         os_name_ver = platform.system() + " " + platform.release()
         g = geocoder.ip('me')
         latlong = g.latlng
@@ -309,7 +286,6 @@ CREATE TABLE IF NOT EXISTS user_feedback (
             ### saving the uploaded resume to folder
             save_image_path = './Uploaded_Resumes/'+pdf_file.name
             pdf_name = pdf_file.name
-            os.makedirs(os.path.dirname(save_image_path), exist_ok=True)
             with open(save_image_path, "wb") as f:
                 f.write(pdf_file.getbuffer())
             show_pdf(save_image_path)
@@ -737,7 +713,7 @@ CREATE TABLE IF NOT EXISTS user_feedback (
             if ad_user == 'admin' and ad_password == 'admin@resume-analyzer':
                 
                 ### Fetch miscellaneous data from user_data(table) and convert it into dataframe
-                cursor.execute('''SELECT ID, ip_add, resume_score, Predicted_Field, User_level, city, state, country from user_data''')
+                cursor.execute('''SELECT ID, ip_add, resume_score, convert(Predicted_Field using utf8), convert(User_level using utf8), city, state, country from user_data''')
                 datanalys = cursor.fetchall()
                 plot_data = pd.DataFrame(datanalys, columns=['Idt', 'IP_add', 'resume_score', 'Predicted_Field', 'User_Level', 'City', 'State', 'Country'])
                 
