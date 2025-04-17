@@ -3,13 +3,8 @@ import nltk
 nltk.download('stopwords')
 nltk.download('punkt')
 import spacy
-import subprocess
+spacy.load("en_core_web_sm")
 
-# Download model only if it's not already present
-try:
-    spacy.load("en_core_web_sm")
-except OSError:
-    subprocess.run(["python", "-m", "spacy", "download", "en_core_web_sm"])
 
 
 # Developed by dnoobnerd [https://dnoobnerd.netlify.app]    Made with Streamlit
