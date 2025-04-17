@@ -722,7 +722,7 @@ CREATE TABLE IF NOT EXISTS user_feedback (
             if ad_user == 'admin' and ad_password == 'admin@resume-analyzer':
                 
                 ### Fetch miscellaneous data from user_data(table) and convert it into dataframe
-                cursor.execute('''SELECT ID, ip_add, resume_score, convert(Predicted_Field using utf8), convert(User_level using utf8), city, state, country from user_data''')
+                cursor.execute('''SELECT ID, ip_add, resume_score, Predicted_Field, User_level, city, state, country from user_data''')
                 datanalys = cursor.fetchall()
                 plot_data = pd.DataFrame(datanalys, columns=['Idt', 'IP_add', 'resume_score', 'Predicted_Field', 'User_Level', 'City', 'State', 'Country'])
                 
