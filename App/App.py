@@ -223,15 +223,15 @@ def run():
                     act_mail varchar(50) NOT NULL,
                     act_mob varchar(20) NOT NULL,
                     Name varchar(500) NOT NULL,
-                    Email_ID VARCHAR(500) NOT NULL,
-                    resume_score VARCHAR(8) NOT NULL,
-                    Timestamp VARCHAR(50) NOT NULL,
-                    Page_no VARCHAR(5) NOT NULL,
-                    Predicted_Field BLOB NOT NULL,
-                    User_level BLOB NOT NULL,
-                    Actual_skills BLOB NOT NULL,
-                    Recommended_skills BLOB NOT NULL,
-                    Recommended_courses BLOB NOT NULL,
+                    Email_ID TEXT NOT NULL,
+                    resume_score TEXT NOT NULL,
+                    Timestamp TEXT NOT NULL,
+                    Page_no TEXT NOT NULL,
+                    Predicted_Field TEXT NOT NULL,
+                    User_level TEXT NOT NULL,
+                    Actual_skills TEXT NOT NULL,
+                    Recommended_skills TEXT NOT NULL,
+                    Recommended_courses TEXT NOT NULL,
                     pdf_name varchar(50) NOT NULL,
                     PRIMARY KEY (ID)
                     );
@@ -243,10 +243,10 @@ def run():
      tablef_sql = "CREATE TABLE IF NOT EXISTS " + DBf_table_name + """
                     (ID INT NOT NULL AUTOINCREMENT,
                         feed_name varchar(50) NOT NULL,
-                        feed_email VARCHAR(50) NOT NULL,
-                        feed_score VARCHAR(5) NOT NULL,
-                        comments VARCHAR(100) NULL,
-                        Timestamp VARCHAR(50) NOT NULL,
+                        feed_email TEXT NOT NULL,
+                        feed_score TEXT NOT NULL,
+                        comments TEXT NULL,
+                        Timestamp TEXT NOT NULL,
                         PRIMARY KEY (ID)
                     );
                 """
