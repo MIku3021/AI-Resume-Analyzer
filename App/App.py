@@ -6,6 +6,7 @@ import streamlit as st # type: ignore # core package used in this project
 import pandas as pd # type: ignore
 import base64, random
 import time,datetime
+from PIL import Image
 # import sqlite3
 import os
 import socket
@@ -172,7 +173,12 @@ def run():
     """, unsafe_allow_html=True)    
     
     # (Logo, Heading, Sidebar etc)
-     img = Image.open('./Logo/RESUM.png')
+     img_path = './Logo/RESUM.png'
+    if os.path.exists(img_path):
+        img = Image.open(img_path)
+        st.image(img)
+    else:
+        st.warning("Logo image './Logo/RESUM.png' not found. Skipping logo.")
      st.image(img)
      st.sidebar.markdown("# Choose Something...")
      activities = ["User", "Feedback", "About", "Admin"]
