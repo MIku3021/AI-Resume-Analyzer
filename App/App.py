@@ -8,6 +8,7 @@ nltk.download('punkt')
 
 
 ###### Packages Used ######
+import getpass
 import streamlit as st # type: ignore # core package used in this project
 import pandas as pd # type: ignore
 import base64, random
@@ -267,7 +268,7 @@ CREATE TABLE IF NOT EXISTS user_feedback (
         sec_token = secrets.token_urlsafe(12)
         host_name = socket.gethostname()
         ip_add = socket.gethostbyname(host_name)
-        dev_user = os.getlogin()
+        dev_user = getpass.getuser()
         os_name_ver = platform.system() + " " + platform.release()
         g = geocoder.ip('me')
         latlong = g.latlng
