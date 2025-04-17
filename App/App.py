@@ -6,6 +6,17 @@ import spacy
 spacy.load("en_core_web_sm")
 
 
+import subprocess
+import importlib.util
+
+# Check if the model is installed, download if not
+model_name = "en_core_web_sm"
+if not importlib.util.find_spec(model_name):
+    subprocess.run(["python", "-m", "spacy", "download", model_name])
+
+nlp = spacy.load(model_name)
+
+
 
 # Developed by dnoobnerd [https://dnoobnerd.netlify.app]    Made with Streamlit
 
