@@ -208,32 +208,24 @@ def run():
 
     # Create table user_data and user_feedback
      DB_table_name = 'user_data'
-     table_sql = "CREATE TABLE IF NOT EXISTS " + DB_table_name + """
-                    ID INTEGER PRIMARY KEY AUTOINCREMENT,
-                    sec_token varchar(20) NOT NULL,
-                    ip_add varchar(50) NULL,
-                    host_name varchar(50) NULL,
-                    dev_user varchar(50) NULL,
-                    os_name_ver varchar(50) NULL,
-                    latlong varchar(50) NULL,
-                    city varchar(50) NULL,
-                    state varchar(50) NULL,
-                    country varchar(50) NULL,
-                    act_name varchar(50) NOT NULL,
-                    act_mail varchar(50) NOT NULL,
-                    act_mob varchar(20) NOT NULL,
-                    Name varchar(500) NOT NULL,
-                    Email_ID TEXT NOT NULL,
-                    resume_score TEXT NOT NULL,
-                    Timestamp TEXT NOT NULL,
-                    Page_no TEXT NOT NULL,
-                    Predicted_Field TEXT NOT NULL,
-                    User_level TEXT NOT NULL,
-                    Actual_skills TEXT NOT NULL,
-                    Recommended_skills TEXT NOT NULL,
-                    Recommended_courses TEXT NOT NULL,
-                    pdf_name varchar(50) NOT NULL,
-                    );
+    table_sql = '''
+        CREATE TABLE IF NOT EXISTS user_data (
+            ID INTEGER PRIMARY KEY AUTOINCREMENT,
+            Name TEXT,
+            Email TEXT,
+            Password TEXT,
+            IP_Address TEXT,
+            Resume_score TEXT,
+            Timestamp TEXT,
+            Page_no TEXT,
+            Predicted_Field TEXT,
+            User_level TEXT,
+            Actual_skills TEXT,
+            Recommended_skills TEXT,
+            Recommended_courses TEXT,
+            City TEXT
+        );
+    '''
                 """
      cursor.execute(table_sql)
 
