@@ -173,11 +173,11 @@ def run():
     """, unsafe_allow_html=True)    
     
     # (Logo, Heading, Sidebar etc)
-     img_path = './Logo/RESUM.png'
-    if os.path.exists(img_path):
+     img_path = img_path = os.path.join(os.path.dirname(__file__), 'Logo', 'RESUM.png')
+     if os.path.exists(img_path):
         img = Image.open(img_path)
         st.image(img)
-    else:
+     else:
         st.warning("Logo image './Logo/RESUM.png' not found. Skipping logo.")
      st.image(img)
      st.sidebar.markdown("# Choose Something...")
