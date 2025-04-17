@@ -5,8 +5,6 @@ from PIL import Image
 ###### Packages Used ######
 import sqlite3
 os.makedirs("./Database", exist_ok=True)
-connection = sqlite3.connect("./Database/cv.db")
-cursor = connection.cursor()
 import streamlit as st # type: ignore # core package used in this project
 import pandas as pd # type: ignore
 import base64, random
@@ -42,7 +40,8 @@ import nltk # type: ignore
 nltk.download('stopwords')
 # 
 
-
+connection = sqlite3.connect("./Database/cv.db")
+cursor = connection.cursor()
 # inserting miscellaneous data, fetched results, prediction and recommendation into user_data table
 def insert_data(sec_token,ip_add,host_name,dev_user,os_name_ver,latlong,city,state,country,act_name,act_mail,act_mob,name,email,res_score,timestamp,no_of_pages,reco_field,cand_level,skills,recommended_skills,courses,pdf_name):
     DB_table_name = 'user_data'
