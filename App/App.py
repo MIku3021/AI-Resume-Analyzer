@@ -20,7 +20,7 @@ import plotly.express as px # type: ignore # to create visualisations at the adm
 import plotly.graph_objects as go # type: ignore
 from geopy.geocoders import Nominatim # type: ignore
 # libraries used to parse the pdf files
-from pyresparser import ResumeParser # type: ignore
+# from pyresparser import ResumeParser # type: ignore
 from pdfminer3.layout import LAParams, LTTextBox # type: ignore
 from pdfminer3.pdfpage import PDFPage # type: ignore
 from pdfminer3.pdfinterp import PDFResourceManager # type: ignore
@@ -342,7 +342,7 @@ def run():
             show_pdf(save_image_path)
 
             ### parsing and extracting whole resume 
-            resume_data = ResumeParser(save_image_path).get_extracted_data()
+            # resume_data = ResumeParser(save_image_path).get_extracted_data()
             if resume_data:
                 
                 ## Get the whole resume data into resume_text
