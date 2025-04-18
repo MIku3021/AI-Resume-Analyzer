@@ -94,22 +94,71 @@ import sqlite3
 connection = sqlite3.connect('cv.db')
 cursor = connection.cursor()
 
+###### SQLite Table Creation ######
+cursor.execute("""
+    CREATE TABLE IF NOT EXISTS user_data (
+        ID INTEGER PRIMARY KEY AUTOINCREMENT,
+        sec_token TEXT NOT NULL,
+        ip_add TEXT,
+        host_name TEXT,
+        dev_user TEXT,
+        os_name_ver TEXT,
+        latlong TEXT,
+        city TEXT,
+        state TEXT,
+        country TEXT,
+        act_name TEXT NOT NULL,
+        act_mail TEXT NOT NULL,
+        act_mob TEXT NOT NULL,
+        Name TEXT NOT NULL,
+        Email_ID TEXT NOT NULL,
+        resume_score TEXT NOT NULL,
+        Timestamp TEXT NOT NULL,
+        Page_no TEXT NOT NULL,
+        Predicted_Field TEXT NOT NULL,
+        User_level TEXT NOT NULL,
+        Actual_skills TEXT NOT NULL,
+        Recommended_skills TEXT NOT NULL,
+        Recommended_courses TEXT NOT NULL,
+        pdf_name TEXT NOT NULL
+    );
+""")
 
-# inserting miscellaneous data, fetched results, prediction and recommendation into user_data table
-def insert_data(sec_token,ip_add,host_name,dev_user,os_name_ver,latlong,city,state,country,act_name,act_mail,act_mob,name,email,res_score,timestamp,no_of_pages,reco_field,cand_level,skills,recommended_skills,courses,pdf_name):
-    DB_table_name = 'user_data'
-    insert_sql = "insert into " + DB_table_name + """
-    values (0,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
-    rec_values = (str(sec_token),str(ip_add),host_name,dev_user,os_name_ver,str(latlong),city,state,country,act_name,act_mail,act_mob,name,email,str(res_score),timestamp,str(no_of_pages),reco_field,cand_level,skills,recommended_skills,courses,pdf_name)
+cursor.execute("""
+    CREATE TABLE IF NOT EXISTS user_feedback (
+        ID INTEGER PRIMARY KEY AUTOINCREMENT,
+        feed_name TEXT NOT NULL,
+        feed_email TEXT NOT NULL,
+        feed_score TEXT NOT NULL,
+        comments TEXT,
+        Timestamp TEXT NOT NULL
+    );
+""")
+
+
+###### Insert Functions Using SQLite Syntax ######
+def insert_data(sec_token, ip_add, host_name, dev_user, os_name_ver, latlong, city, state, country,
+                act_name, act_mail, act_mob, name, email, res_score, timestamp, no_of_pages, reco_field,
+                cand_level, skills, recommended_skills, courses, pdf_name):
+    insert_sql = """
+        INSERT INTO user_data (
+            sec_token, ip_add, host_name, dev_user, os_name_ver, latlong, city, state, country,
+            act_name, act_mail, act_mob, Name, Email_ID, resume_score, Timestamp, Page_no, Predicted_Field,
+            User_level, Actual_skills, Recommended_skills, Recommended_courses, pdf_name
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+    """
+    rec_values = (sec_token, ip_add, host_name, dev_user, os_name_ver, str(latlong), city, state, country,
+                  act_name, act_mail, act_mob, name, email, str(res_score), timestamp, str(no_of_pages),
+                  reco_field, cand_level, skills, recommended_skills, courses, pdf_name)
     cursor.execute(insert_sql, rec_values)
     connection.commit()
 
-
-# inserting feedback data into user_feedback table
-def insertf_data(feed_name,feed_email,feed_score,comments,Timestamp):
-    DBf_table_name = 'user_feedback'
-    insertfeed_sql = "insert into " + DBf_table_name + """
-    values (0,%s,%s,%s,%s,%s)"""
+def insertf_data(feed_name, feed_email, feed_score, comments, Timestamp):
+    insertfeed_sql = """
+        INSERT INTO user_feedback (
+            feed_name, feed_email, feed_score, comments, Timestamp
+        ) VALUES (?, ?, ?, ?, ?);
+    """
     rec_values = (feed_name, feed_email, feed_score, comments, Timestamp)
     cursor.execute(insertfeed_sql, rec_values)
     connection.commit()
