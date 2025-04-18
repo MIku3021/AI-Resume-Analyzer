@@ -246,10 +246,54 @@ def run():
 
     # Create the DB
      # SQLite does not support CREATE DATABASE; using file-based DB
-     # REMOVED invalid db_sql execution
+     
 
 
-    
+    # Create table user_data and user_feedback
+     DB_table_name = 'user_data'
+     table_sql = "CREATE TABLE IF NOT EXISTS " + DB_table_name + """
+                    (ID INT NOT NULL AUTOINCREMENT,
+                    sec_token TEXT(20) NOT NULL,
+                    ip_add TEXT(50) NULL,
+                    host_name TEXT(50) NULL,
+                    dev_user TEXT(50) NULL,
+                    os_name_ver TEXT(50) NULL,
+                    latlong TEXT(50) NULL,
+                    city TEXT(50) NULL,
+                    state TEXT(50) NULL,
+                    country TEXT(50) NULL,
+                    act_name TEXT(50) NOT NULL,
+                    act_mail TEXT(50) NOT NULL,
+                    act_mob TEXT(20) NOT NULL,
+                    Name TEXT(500) NOT NULL,
+                    Email_ID TEXT(500) NOT NULL,
+                    resume_score TEXT(8) NOT NULL,
+                    Timestamp TEXT(50) NOT NULL,
+                    Page_no TEXT(5) NOT NULL,
+                    Predicted_Field TEXT NOT NULL,
+                    User_level TEXT NOT NULL,
+                    Actual_skills TEXT NOT NULL,
+                    Recommended_skills TEXT NOT NULL,
+                    Recommended_courses TEXT NOT NULL,
+                    pdf_name TEXT(50) NOT NULL,
+                    PRIMARY KEY (ID)
+                    );
+                """
+     
+
+
+     DBf_table_name = 'user_feedback'
+     tablef_sql = "CREATE TABLE IF NOT EXISTS " + DBf_table_name + """
+                    (ID INT NOT NULL AUTOINCREMENT,
+                        feed_name TEXT(50) NOT NULL,
+                        feed_email TEXT(50) NOT NULL,
+                        feed_score TEXT(5) NOT NULL,
+                        comments TEXT(100) NULL,
+                        Timestamp TEXT(50) NOT NULL,
+                        PRIMARY KEY (ID)
+                    );
+                """
+     
 
 
     ###### CODE FOR CLIENT SIDE (USER) ######
@@ -726,7 +770,7 @@ def run():
                 st.success("Welcome Shraddha ! Total %d " % values + " User's Have Used Our Tool : )")                
                 
                 ### Fetch user data from user_data(table) and convert it into dataframe
-                cursor.execute('''SELECT ID, sec_token, ip_add, act_name, act_mail, act_mob, Predicted_Field, Timestamp, Name, Email_ID, resume_score, Page_no, pdf_name, User_level, Actual_skills, Recommended_skills, Recommended_courses, city, state, country, latlong, os_name_ver, host_name, dev_user from user_data''')
+                cursor.execute('''SELECT ID, sec_token, ip_add, act_name, act_mail, act_mob,Predicted_Field, Timestamp, Name, Email_ID, resume_score, Page_no, pdf_name, User_level , Actual_skills, Recommended_skills, Recommended_courses, city, state, country, latlong, os_name_ver, host_name, dev_user from user_data''')
                 data = cursor.fetchall()                
 
                 st.header("**User's Data**")
