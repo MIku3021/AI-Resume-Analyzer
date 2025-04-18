@@ -89,10 +89,9 @@ def course_recommender(course_list):
 
 
 ###### Database Stuffs ######
-
-import pymysql
+import sqlite3
 # sql connector
-connection = pymysql.connect(host='localhost',user='root',password='Mommyissues_123',db='cv')
+connection = sqlite3.connect('cv.db')
 cursor = connection.cursor()
 
 
