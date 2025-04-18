@@ -2,6 +2,9 @@
 
 
 ###### Packages Used ######
+from pyresparser import resume_parser
+# ResumeParser('./file.pdf')  ← comment this line wherever used
+
 import streamlit as st # type: ignore # core package used in this project
 import pandas as pd # type: ignore
 import base64, random
