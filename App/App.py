@@ -246,7 +246,7 @@ def run():
 
     # Create the DB
      # SQLite does not support CREATE DATABASE; using file-based DB
-     
+     # REMOVED invalid db_sql execution
 
 
     # Create table user_data and user_feedback
@@ -279,7 +279,7 @@ def run():
                     PRIMARY KEY (ID)
                     );
                 """
-     
+     cursor.execute(table_sql)
 
 
      DBf_table_name = 'user_feedback'
@@ -293,7 +293,7 @@ def run():
                         PRIMARY KEY (ID)
                     );
                 """
-     
+     cursor.execute(tablef_sql)
 
 
     ###### CODE FOR CLIENT SIDE (USER) ######
@@ -770,7 +770,7 @@ def run():
                 st.success("Welcome Shraddha ! Total %d " % values + " User's Have Used Our Tool : )")                
                 
                 ### Fetch user data from user_data(table) and convert it into dataframe
-                cursor.execute('''SELECT ID, sec_token, ip_add, act_name, act_mail, act_mob,Predicted_Field, Timestamp, Name, Email_ID, resume_score, Page_no, pdf_name, User_level , Actual_skills, Recommended_skills, Recommended_courses, city, state, country, latlong, os_name_ver, host_name, dev_user from user_data''')
+                cursor.execute('''SELECT ID, sec_token, ip_add, act_name, act_mail, act_mob, Predicted_Field, Timestamp, Name, Email_ID, resume_score, Page_no, pdf_name, User_level, Actual_skills, Recommended_skills, Recommended_courses, city, state, country, latlong, os_name_ver, host_name, dev_user from user_data''')
                 data = cursor.fetchall()                
 
                 st.header("**User's Data**")
