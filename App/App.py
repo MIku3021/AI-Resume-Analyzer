@@ -2,7 +2,7 @@
 
 
 ###### Packages Used ######
-from pyresparser import resume_parser
+# from pyresparser import resume_parser
 # ResumeParser('./file.pdf')  ← comment this line wherever used
 
 import streamlit as st # type: ignore # core package used in this project
